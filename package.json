@@ -2,22 +2,38 @@
   "name": "generate-funny-img",
   "version": "0.1.0",
   "private": true,
-  "dependencies": {
-    "@testing-library/jest-dom": "^4.2.4",
-    "@testing-library/react": "^9.5.0",
-    "@testing-library/user-event": "^7.2.1",
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1",
-    "react-scripts": "3.4.3"
-  },
   "scripts": {
+    "build": "react-scripts build && sw-precache --config=sw-config.js --root='build/' --static-file-globs='build/**/!(*map*)'",
+    "dev": "serve -s build",
+    "eject": "react-scripts eject",
+    "lint": "npm-run-all --parallel lint:*",
+    "lint:css": "stylelint src/**/*.css",
+    "lint:js": "eslint . --ignore-path .gitignore",
+    "prebundle": "rimraf dist",
     "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "test": "react-scripts test"
   },
-  "eslintConfig": {
-    "extends": "react-app"
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged",
+      "commit-msg": "validate-commit-msg"
+    }
+  },
+  "lint-staged": {
+    "*.css": [
+      "stylelint --cache --fix",
+      "git add"
+    ],
+    "*.js": [
+      "eslint --cache --fix",
+      "git add"
+    ],
+    "*.{css,js,json,md,yml}": "prettier --write"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
   },
   "browserslist": {
     "production": [
@@ -30,5 +46,104 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "prettier": "@stylelint/prettier-config",
+  "eslintConfig": {
+    "env": {
+      "browser": true,
+      "jest": true
+    },
+    "parser": "babel-eslint",
+    "plugins": [
+      "jsx-a11y",
+      "prettier"
+    ],
+    "extends": [
+      "airbnb",
+      "plugin:jsx-a11y/recommended",
+      "prettier",
+      "prettier/react"
+    ],
+    "rules": {
+      "default-param-last": "error",
+      "no-console": [
+        "error",
+        {
+          "allow": [
+            "warn",
+            "error",
+            "log"
+          ]
+        }
+      ],
+      "no-param-reassign": [
+        "error",
+        {
+          "props": false
+        }
+      ],
+      "no-use-before-define": [
+        "error",
+        {
+          "functions": false,
+          "classes": false
+        }
+      ],
+      "prettier/prettier": "error",
+      "react/jsx-filename-extension": [
+        1,
+        {
+          "extensions": [
+            ".js",
+            ".jsx"
+          ]
+        }
+      ]
+    }
+  },
+  "stylelint": {
+    "plugins": [
+      "stylelint-order"
+    ],
+    "extends": [
+      "stylelint-config-standard"
+    ],
+    "rules": {
+      "indentation": "tab",
+      "selector-list-comma-newline-after": "never-multi-line",
+      "value-list-comma-newline-after": "never-multi-line",
+      "declaration-colon-newline-after": "always-multi-line"
+    }
+  },
+  "dependencies": {
+    "@testing-library/jest-dom": "^4.2.4",
+    "@testing-library/react": "^9.5.0",
+    "@testing-library/user-event": "^7.2.1",
+    "react": "^16.13.1",
+    "react-detect-offline": "^2.4.0",
+    "react-dom": "^16.13.1",
+    "react-scripts": "3.4.3"
+  },
+  "devDependencies": {
+    "@stylelint/prettier-config": "^2.0.0",
+    "cz-conventional-changelog": "^3.3.0",
+    "eslint-config-airbnb": "^18.2.0",
+    "eslint-config-prettier": "^6.12.0",
+    "eslint-config-react-app": "^5.2.1",
+    "eslint-plugin-jsx-a11y": "^6.3.1",
+    "eslint-plugin-prettier": "^3.1.4",
+    "husky": "^4.3.0",
+    "lint-staged": "^10.4.0",
+    "npm-run-all": "^4.1.5",
+    "prettier": "2.1.2",
+    "prettier-eslint": "^11.0.0",
+    "prettier-eslint-cli": "^5.0.0",
+    "prettier-stylelint": "^0.4.2",
+    "stylelint": "^13.7.2",
+    "stylelint-config-standard": "^20.0.0",
+    "stylelint-order": "^4.1.0",
+    "sw-precache": "^5.2.1",
+    "undefined": "^0.1.0",
+    "validate-commit-msg": "^2.14.0"
   }
 }
