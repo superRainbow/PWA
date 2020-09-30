@@ -11,7 +11,8 @@
     "lint:js": "eslint . --ignore-path .gitignore",
     "prebundle": "rimraf dist",
     "start": "react-scripts start",
-    "test": "react-scripts test"
+    "test": "react-scripts test",
+    "version": "conventional-changelog -p angular -i CHANGELOG.md -s && git add CHANGELOG.md"
   },
   "husky": {
     "hooks": {
