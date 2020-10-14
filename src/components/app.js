@@ -1,20 +1,14 @@
-.App {
+import React from 'react';
+import { Online, Offline } from 'react-detect-offline';
+import styled, { keyframes } from 'styled-components';
+import UseAddToHomescreenPrompt from './addToHomescreenPrompt';
+import rainbow from '../assets/images/rainbow.png';
+
+const App = styled.div`
 	text-align: center;
-}
+`;
 
-.rainbow-icon {
-	height: 40vmin;
-	margin-bottom: 50px;
-	pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-	.rainbow-icon {
-		animation: shake-slow infinite 5s ease-in-out;
-	}
-}
-
-.App-header {
+const AppHeader = styled.div`
 	align-items: center;
 	background-color: #4fc6e1;
 	color: white;
@@ -23,13 +17,17 @@
 	font-size: calc(10px + 2vmin);
 	justify-content: center;
 	min-height: 100vh;
-}
+`;
 
-.App-link {
+const AppLink = styled.a.attrs(({ url }) => ({
+	href: url,
+	target: '_blank',
+	rel: 'noopener noreferrer',
+}))`
 	color: #61dafb;
-}
+`;
 
-@keyframes shake-slow {
+const ShakeSlow = keyframes`
 	2% {
 		transform: translate(0, -7px) rotate(2.5deg);
 	}
@@ -229,4 +227,31 @@
 	0%,100% {
 		transform: translate(0, 0) rotate(0);
 	}
-}
+`;
+
+const RainbowIcon = styled.img.attrs(({ url, text }) => ({
+	src: url,
+	alt: text,
+}))`
+	height: 40vmin;
+	margin-bottom: 50px;
+	pointer-events: none;
+	animation: ${ShakeSlow} infinite 5s ease-in-out;
+`;
+
+export default () => {
+	return (
+		<App>
+			<UseAddToHomescreenPrompt />
+			<AppHeader>
+				<RainbowIcon url={rainbow} text="rainbow" />
+				<Online>有網路時會顯示的內容</Online>
+				<Offline>離線時會顯示的內容</Offline>
+				<p>
+					Edit <code>src/App.js</code> and save to reload.
+				</p>
+				<AppLink url="https://reactjs.org">Learn React</AppLink>
+			</AppHeader>
+		</App>
+	);
+};
