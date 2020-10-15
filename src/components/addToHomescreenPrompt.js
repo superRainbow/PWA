@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import Modal from './modal';
 import checkUserAgent from '../utils/checkUserAgent';
+import useLocalStorage from '../utils/useLocalStorage';
 
 const PopContent = styled.div`
 	display: flex;
@@ -13,8 +14,10 @@ const PopContent = styled.div`
 `;
 
 const useAddToHomescreenPrompt = () => {
-	// isInstalled：只能檢查是否是在 PWA 的 APP 模式下，無法在網頁上判斷是否安裝了 PWA
-	const isInstalled = window.matchMedia('(display-mode: standalone)').matches;
+	// isPWA：只能檢查是否是在 PWA 的 APP 模式下，無法在網頁上判斷是否安裝了 PWA
+	const isPWA = window.matchMedia('(display-mode: standalone)').matches;
+	// 確認 localStorage 是否有 isInstalled 欄位
+	const [isInstalled, setInstalled] = useLocalStorage('isInstalled');
 	const { isIOS, isSafari } = checkUserAgent();
 	const [deferredPrompt, setPrompt] = useState(null);
 	const [isOpen, setOpen] = useState(true);
@@ -46,6 +49,7 @@ const useAddToHomescreenPrompt = () => {
 					console.log('使用者取消安裝');
 				} else {
 					console.log('使用者安裝');
+					setInstalled(true);
 					cloeModal();
 				}
 				setPrompt(null);
@@ -56,7 +60,7 @@ const useAddToHomescreenPrompt = () => {
 	return (
 		/* beforeinstallprompt 在 ios 與 Safari 上不支援 (https://caniuse.com/mdn-api_beforeinstallpromptevent) */
 		<Modal
-			isShow={!(isIOS || isSafari || isInstalled) && isOpen}
+			isShow={!isInstalled && !(isIOS || isSafari || isPWA) && isOpen}
 			isShowClose
 			handleClose={cloeModal}
 		>
