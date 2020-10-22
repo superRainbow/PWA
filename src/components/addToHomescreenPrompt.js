@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import Modal from './modal';
 import checkUserAgent from '../utils/checkUserAgent';
@@ -13,14 +14,15 @@ const PopContent = styled.div`
 	}
 `;
 
-const useAddToHomescreenPrompt = () => {
+const useAddToHomescreenPrompt = (props) => {
 	// isPWA：只能檢查是否是在 PWA 的 APP 模式下，無法在網頁上判斷是否安裝了 PWA
 	const isPWA = window.matchMedia('(display-mode: standalone)').matches;
 	// 確認 localStorage 是否有 isInstalled 欄位
 	const [isInstalled, setInstalled] = useLocalStorage('isInstalled');
 	const { isIOS, isSafari } = checkUserAgent();
 	const [deferredPrompt, setPrompt] = useState(null);
-	const [isOpen, setOpen] = useState(true);
+	const { index } = props;
+	const isOpen = index === 0;
 
 	useEffect(() => {
 		const ready = (e) => {
@@ -36,7 +38,7 @@ const useAddToHomescreenPrompt = () => {
 	}, []);
 
 	const cloeModal = () => {
-		setOpen(false);
+		props.onChange(1);
 	};
 
 	const promptToInstall = () => {
@@ -50,8 +52,8 @@ const useAddToHomescreenPrompt = () => {
 				} else {
 					console.log('使用者安裝');
 					setInstalled(true);
-					cloeModal();
 				}
+				cloeModal();
 				setPrompt(null);
 			});
 		}
@@ -72,6 +74,16 @@ const useAddToHomescreenPrompt = () => {
 			</PopContent>
 		</Modal>
 	);
+};
+
+useAddToHomescreenPrompt.propTypes = {
+	index: PropTypes.number,
+	onChange: PropTypes.func,
+};
+
+useAddToHomescreenPrompt.defaultProps = {
+	index: 0,
+	onChange: {},
 };
 
 export default useAddToHomescreenPrompt;

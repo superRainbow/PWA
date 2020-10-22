@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Online, Offline } from 'react-detect-offline';
 import styled, { keyframes } from 'styled-components';
 import UseAddToHomescreenPrompt from './addToHomescreenPrompt';
+import AddPushPrompt from './addPushPrompt';
 import rainbow from '../assets/images/rainbow.png';
 
 const App = styled.div`
@@ -240,9 +241,14 @@ const RainbowIcon = styled.img.attrs(({ url, text }) => ({
 `;
 
 export default () => {
+	const [index, setIndex] = useState(0);
+	const handleIndex = (newValue) => {
+		setIndex(newValue);
+	};
 	return (
 		<App>
-			<UseAddToHomescreenPrompt />
+			<UseAddToHomescreenPrompt index={index} onChange={handleIndex} />
+			<AddPushPrompt index={index} onChange={handleIndex} />
 			<AppHeader>
 				<RainbowIcon url={rainbow} text="rainbow" />
 				<Online>有網路時會顯示的內容</Online>
