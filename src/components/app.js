@@ -3,6 +3,7 @@ import { Online, Offline } from 'react-detect-offline';
 import styled, { keyframes } from 'styled-components';
 import UseAddToHomescreenPrompt from './addToHomescreenPrompt';
 import AddPushPrompt from './addPushPrompt';
+import NotificationBtn from './notificationBtn';
 import rainbow from '../assets/images/rainbow.png';
 
 const App = styled.div`
@@ -253,6 +254,7 @@ export default () => {
 				<RainbowIcon url={rainbow} text="rainbow" />
 				<Online>有網路時會顯示的內容</Online>
 				<Offline>離線時會顯示的內容</Offline>
+				<NotificationBtn />
 				<p>
 					Edit <code>src/App.js</code> and save to reload.
 				</p>

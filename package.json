@@ -46,7 +46,8 @@
   "eslintConfig": {
     "env": {
       "browser": true,
-      "jest": true
+      "jest": true,
+      "worker": true
     },
     "parser": "babel-eslint",
     "plugins": [
@@ -84,6 +85,7 @@
           "classes": false
         }
       ],
+      "no-useless-escape": "off",
       "prettier/prettier": "error",
       "react/jsx-filename-extension": [
         1,
