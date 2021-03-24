@@ -14,8 +14,8 @@ const PopContent = styled.div`
 
 const addPushPrompt = (props) => {
 	const { index } = props;
-	const isGranted = Notification && Notification.permission === 'granted';
-	const isShow = Notification && 'serviceWorker' in navigator && index === 1 && !isGranted;
+	const isGranted = 'Notification' in window && Notification.permission === 'granted';
+	const isShow = 'serviceWorker' in navigator && index === 1 && !isGranted;
 
 	const cloeModal = () => {
 		props.onChange(2);

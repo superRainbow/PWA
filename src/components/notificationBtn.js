@@ -2,7 +2,7 @@ import React from 'react';
 import rainbow from '../assets/images/rainbow.png';
 
 const notificationBtn = () => {
-	const isShow = Notification && Notification.permission === 'granted';
+	const isShow = 'Notification' in window && Notification.permission === 'granted';
 	const push = () => {
 		if ('serviceWorker' in navigator) {
 			const options = {

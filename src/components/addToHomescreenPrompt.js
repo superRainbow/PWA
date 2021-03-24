@@ -43,7 +43,7 @@ const useAddToHomescreenPrompt = (props) => {
 
 	const promptToInstall = () => {
 		console.log('deferredPrompt', deferredPrompt);
-		if (deferredPrompt !== undefined) {
+		if (deferredPrompt) {
 			deferredPrompt.prompt();
 			deferredPrompt.userChoice.then((choiceResult) => {
 				console.log(choiceResult.outcome);
